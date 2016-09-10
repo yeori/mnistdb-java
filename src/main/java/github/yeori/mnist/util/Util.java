@@ -25,6 +25,11 @@ package github.yeori.mnist.util;
  */
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.GZIPInputStream;
 
 import github.yeori.mnist.MnistException;
 
@@ -51,7 +56,7 @@ public class Util {
     public static int b2i(byte b) {
         return b < 0 ? b + 256 : b;
     }
-
+    
     public static void should_be_file(String error, File f) {
         if ( f.isDirectory() ) {
             throw new MnistException(error);
@@ -107,5 +112,46 @@ public class Util {
             throw new MnistException(error);
         }
     }
+    /**
+     * return new files whichi is uncompressed from the given input
+     * @param gzipped gzip file( extension should be ".gz"
+     * @return uncompressed file
+     */
+	public static File unzipfNecessary(File gzipped) {
+		if ( gzipped.getAbsolutePath().toLowerCase().endsWith(".gz")){
+			
+			try {
+				File tmp = File.createTempFile(gzipped.getName() + System.currentTimeMillis(), "");
+				tmp.deleteOnExit();
+				
+				ungzip ( gzipped, tmp );
+				
+				return tmp;
+			} catch (IOException e) {
+				throw new MnistException(e, "io error while creating temp file");
+			}
+		} else {
+			return gzipped;
+			
+		}
+	}
+
+	private static void ungzip(File gzipped, File dest) {
+		try (GZIPInputStream gin = new GZIPInputStream(new FileInputStream(gzipped));
+			FileOutputStream fos = new FileOutputStream(dest) ) {
+			
+			byte [] buf = new byte [ 8 * 1024 ];
+			int nRead ;
+			while ( (nRead = gin.read(buf)) >= 0 ) {
+				fos.write(buf, 0, nRead);
+			}
+		} catch (FileNotFoundException e) {
+			throw new MnistException(e, "io error(check file path): %s", gzipped.getPath());
+		} catch (IOException e) {
+			throw new MnistException(e, "io error: %s", e.getMessage());
+		}
+		
+		
+	}
 
 }

@@ -40,6 +40,8 @@ public class MnistUtil {
         Util.should_exist("check label file path", label);
         Util.should_exist("check image file path", img);
         
+        label = Util.unzipfNecessary(label);
+        img = Util.unzipfNecessary(img);
         MnistDb db;
         try {
             db = new MnistDb(new RandomAccessFile(label, "r"), new RandomAccessFile(img, "r"));
