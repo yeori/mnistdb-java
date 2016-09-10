@@ -37,7 +37,7 @@ import javax.imageio.ImageIO;
 
 import github.yeori.mnist.util.Util;
 
-public class ImgWriter implements MnistWriter {
+class ImgWriter implements MnistWriter {
 
     private File outDir;
     private int imageWidth = 28 ;

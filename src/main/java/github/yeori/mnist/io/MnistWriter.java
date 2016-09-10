@@ -26,7 +26,7 @@ package github.yeori.mnist.io;
 
 import java.io.IOException;
 
-public interface MnistWriter {
+interface MnistWriter {
 
     public void write (String fname, byte [] eachImage ) throws IOException;
 }

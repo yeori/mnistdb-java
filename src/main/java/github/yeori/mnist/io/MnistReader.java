@@ -26,7 +26,7 @@ package github.yeori.mnist.io;
 
 import java.io.OutputStream;
 
-public interface MnistReader {
+interface MnistReader {
 
     public void read ( String path, OutputStream out );
 }

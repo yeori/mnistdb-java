@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import github.yeori.mnist.MnistException;
 
-public class RawByteWriter implements MnistWriter {
+class RawByteWriter implements MnistWriter {
 
     private File outputDir ;
     
