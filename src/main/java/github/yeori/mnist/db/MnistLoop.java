@@ -1,5 +1,3 @@
-package github.yeori.mnist.db;
-
 /*-
  * #%L
  * JMnistDB
@@ -23,6 +21,7 @@ package github.yeori.mnist.db;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+package github.yeori.mnist.db;
 
 import java.util.Iterator;
 
@@ -33,9 +32,28 @@ import java.util.Iterator;
  *
  */
 public interface MnistLoop extends Iterator<Mnistlet>, Iterable<Mnistlet>{
-
+	/**
+	 * true means next() returns a mnistlet, false means no more mnistlet remaining 
+	 */
     public boolean hasNext();
-    
+    /**
+     * get current mnistlet during iteration
+     */
     public Mnistlet next();
+    /**
+     * number of iteration
+     * <ul>
+     * <li>support for traditional loop
+     * </ul>
+     */
+    public int size ();
+    /**
+     * returns i-th mnistlet.
+     * <ul>
+     * <li> support for traditional loop(index-based loop)
+     * <li>0 means first elem, size()-1 means last elem.
+     * </ul> 
+     */
+	public Mnistlet get(int index);
 
 }

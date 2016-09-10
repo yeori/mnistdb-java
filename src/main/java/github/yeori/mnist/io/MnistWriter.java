@@ -1,5 +1,3 @@
-package github.yeori.mnist.io;
-
 /*-
  * #%L
  * JMnistDB
@@ -23,10 +21,11 @@ package github.yeori.mnist.io;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+package github.yeori.mnist.io;
 
 import java.io.IOException;
 
-interface MnistWriter {
+public interface MnistWriter {
 
     public void write (String fname, byte [] eachImage ) throws IOException;
 }

@@ -1,5 +1,3 @@
-package github.yeori.mnist;
-
 /*-
  * #%L
  * JMnistDB
@@ -23,6 +21,7 @@ package github.yeori.mnist;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+package github.yeori.mnist;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,6 +39,8 @@ public class MnistUtil {
         Util.should_exist("check label file path", label);
         Util.should_exist("check image file path", img);
         
+        label = Util.unzipfNecessary(label);
+        img = Util.unzipfNecessary(img);
         MnistDb db;
         try {
             db = new MnistDb(new RandomAccessFile(label, "r"), new RandomAccessFile(img, "r"));

@@ -1,5 +1,3 @@
-package github.yeori.mnist.db;
-
 /*-
  * #%L
  * JMnistDB
@@ -23,6 +21,12 @@ package github.yeori.mnist.db;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+package github.yeori.mnist.db;
+
+import java.awt.image.BufferedImage;
+
+import github.yeori.mnist.io.MnistIO;
+
 /**
  * represents a number character and raw bytes associated it.
  * 
@@ -68,4 +72,7 @@ public class Mnistlet {
         data = rawbytes;
     }
     
+    public BufferedImage asImage() {
+    	return MnistIO.toImage(data);
+    }
 }

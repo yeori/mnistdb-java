@@ -91,26 +91,26 @@ public class MnistDbTest {
     @Test
     public void test_imagebytes() {
         MnistDb db = MnistUtil.loadDb("e:/mnist/train-labels.idx1-ubyte", "e:/mnist/train-images.idx3-ubyte");
-        byte[] buf = db.readImages(0, 2); // two(0, 1) images
+        byte[] buf = db.readBytes(0, 2); // two(0, 1) images
         assertEquals ( 28*28*2, buf.length);
         
         /* 3 bytes reading test */
         byte [] each_3bytes = new byte [ 28*28 * 3 ];
-        db.readImages(10, each_3bytes, 28*28*0); // 10th image
-        db.readImages(11, each_3bytes, 28*28*1); // 11th image
-        db.readImages(12, each_3bytes, 28*28*2); // 12th image
-        byte [] batch_3bytes   = db.readImages(10, 3);
+        db.readBytes(10, each_3bytes, 28*28*0); // 10th image
+        db.readBytes(11, each_3bytes, 28*28*1); // 11th image
+        db.readBytes(12, each_3bytes, 28*28*2); // 12th image
+        byte [] batch_3bytes   = db.readBytes(10, 3);
         assertArrayEquals(each_3bytes, batch_3bytes);
         
-        /* all bytes */
-        byte [] all = new byte [ db.size() * 28 * 28 ];
-        db.readImages(0, db.size(), all);
+        /* 50 images from 100th to 149th */
+        byte [] fiftyImages = new byte [ 50 * 28 * 28 ];
+        db.readBytes(100, 50, fiftyImages);
         
-        byte [] each = new byte[ all.length];
-        for ( int index = 0 ; index < db.size(); index ++ ) {
-            db.readImages(index, each, index * MnistDb.BYTES_PER_IMG );
+        byte [] each = new byte[ fiftyImages.length];
+        for ( int i = 0 ; i < 50; i ++ ) {
+            db.readBytes(100 + i , each, i * MnistDb.BYTES_PER_IMG );
         }
-        assertArrayEquals(all, each);
+        assertArrayEquals(fiftyImages, each);
         
     }
 

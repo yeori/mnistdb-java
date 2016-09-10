@@ -1,5 +1,3 @@
-package github.yeori.mnist.db;
-
 /*-
  * #%L
  * JMnistDB
@@ -23,6 +21,7 @@ package github.yeori.mnist.db;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+package github.yeori.mnist.db;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -133,7 +132,7 @@ public class MnistDb {
      * @return
      */
     byte [] getRawBytesAt(int index) {
-        return readImages(index, imgBuf);
+        return readBytes(index, imgBuf);
     }
     /**
      * reads bytes of an i-th image and writes to the given buffer
@@ -144,7 +143,7 @@ public class MnistDb {
      * @param buf bytes of i-th image is written here
      * @return
      */
-    public byte [] readImages(int index, byte[] buf) {
+    public byte [] readBytes(int index, byte[] buf) {
         Util.length ( "at least " + BYTES_PER_IMG + " bytes required, but " + buf.length , buf, 28*28);
         
         readBytes(index, 1, buf, 0);
@@ -160,7 +159,7 @@ public class MnistDb {
      * @param buf bytes of i-th image is written here
      * @return
      */
-    public byte [] readImages ( int index, byte[] buf, int bufOffset) {
+    public byte [] readBytes ( int index, byte[] buf, int bufOffset) {
         Util.length ( String.format(
                         "at least %d bytes required from offset %d, but %d is available",
                               BYTES_PER_IMG,                   bufOffset,     buf.length - bufOffset) , 
@@ -179,19 +178,19 @@ public class MnistDb {
      * @param index index of start image(inclusive)
      * @param nImages number of images to read from the given index
      */
-    public byte [] readImages( int index, int nImages) {
+    public byte [] readBytes( int index, int nImages) {
         byte [] buf = new byte [ nImages * BYTES_PER_IMG];
         readBytes(index, nImages, buf, 0);
         return buf;
     }
     /**
-     * 
+     * load N images' bytes into the buffer
      * @param index start index to read
      * @param nImages number of images to read from index
      * @param buf bytes of images are witten here
      * @return
      */
-    public byte [] readImages( int index, int nImages, byte [] buf) {
+    public byte [] readBytes( int index, int nImages, byte [] buf) {
         readBytes(index, nImages, buf, 0);
         return buf;
     }
@@ -226,7 +225,7 @@ public class MnistDb {
      * @return 
      */
     public MnistDb get(int index, Mnistlet mlet) {
-        readImages(index, mlet.rawbytes());
+        readBytes(index, mlet.rawbytes());
         mlet.set(index, getNumberAt(index), mlet.rawbytes());
         return this;
     }

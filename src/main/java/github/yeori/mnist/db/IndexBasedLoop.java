@@ -1,5 +1,3 @@
-package github.yeori.mnist.db;
-
 /*-
  * #%L
  * JMnistDB
@@ -23,9 +21,12 @@ package github.yeori.mnist.db;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+package github.yeori.mnist.db;
 
 import java.util.Iterator;
 import java.util.List;
+
+import github.yeori.mnist.MnistException;
 
 class IndexBasedLoop implements MnistLoop {
 
@@ -45,6 +46,7 @@ class IndexBasedLoop implements MnistLoop {
 
     @Override
     public Mnistlet next() {
+    	checkRange();
         int index = indexes.get(pos);
         pos ++ ;
         return db.get(index);
@@ -54,5 +56,32 @@ class IndexBasedLoop implements MnistLoop {
     public Iterator<Mnistlet> iterator() {
         return this;
     }
+    
+    @Override
+    public Mnistlet get(int index) {
+    	checkRange( index );
+    	return db.get( indexes.get(index) );
+    }
 
+	@Override
+    public int size() {
+    	return indexes.size();
+    }
+	
+    private void checkRange ( ) {
+    	if ( !hasNext() ){
+    		throw new MnistException("out of range [%d, %d) but %d", 0, indexes.size(), pos);
+    	}
+    }
+    
+    private void checkRange(int index) {
+    	if ( index < 0 ) {
+    		throw new MnistException("negative index : %d", index);
+    	}
+    	
+    	if ( index >= indexes.size() ) {
+    		throw new MnistException("index overflow : %d", index);
+    	}
+    	
+    }
 }

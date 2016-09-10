@@ -1,5 +1,3 @@
-package github.yeori.mnist.io;
-
 /*-
  * #%L
  * JMnistDB
@@ -23,6 +21,11 @@ package github.yeori.mnist.io;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+package github.yeori.mnist.io;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -37,6 +40,7 @@ import java.util.Scanner;
 import github.yeori.mnist.MnistConfig;
 import github.yeori.mnist.MnistException;
 import github.yeori.mnist.io.ImgWriter.ImgType;
+import github.yeori.mnist.util.Util;
 
 public class MnistIO {
     static String path_training_label = "e:/mnist/train-labels.idx1-ubyte";
@@ -56,7 +60,7 @@ public class MnistIO {
         */
 //        MnistConfig config = new MnistConfig("mnist.config");
 //        write( config );
-        write ( "mnist.config" );
+//        write ( "mnist.config" );
     }
     
     public static void write ( String configPath) throws MnistException {
@@ -200,5 +204,22 @@ public class MnistIO {
         } catch (IOException e) {
             throw new MnistException(e, "IO exception " + e.getMessage());
         }
+    }
+    
+    public static BufferedImage toImage ( byte [] data ) {
+    	BufferedImage img = new BufferedImage(28, 28, BufferedImage.TYPE_INT_RGB);
+    	Graphics g = img.getGraphics();
+    	g.setColor(Color.WHITE);
+    	g.fillRect(0, 0, 28, 28);
+    	for( int i = 0 ; i < data.length; i++ ) {
+    		int ir = i / 28;
+    		int ic = i % 28;
+    		int rgb = 255 - Util.b2i(data[i]);
+    		if ( rgb < 255 ) {
+    			g.setColor(new Color ( rgb, rgb, rgb ));
+    			g.fillRect(ic, ir, 1, 1);
+    		}
+    	}
+    	return img;
     }
 }

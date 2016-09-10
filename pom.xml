@@ -3,20 +3,36 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>github.yeori.mnistdb</groupId>
 	<artifactId>jmnistdb</artifactId>
-	<version>0.1.0</version>
+	<packaging>jar</packaging>
+	
 	<name>JMnistDB</name>
+	<version>0.1.0</version>
 	<description>mnistdb for java</description>
+	<url>https://github.com/yeori/mnistdb-java</url>
+	
+	<scm>
+		<url>https://github.com/yeori/mnistdb-java.git</url>
+		<connection>https://github.com/yeori/mnistdb-java</connection>
+	</scm>
+	
+	<developers>
+		<developer>
+			<id>yeori</id>
+			<name>yeori</name>
+			<email>yeori.seo@gmail.com</email>
+		</developer>
+	</developers>
 	<properties>
 		<java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-
-	<inceptionYear>2016</inceptionYear>
+	
 	<organization>
 		<name>yeori</name>
 		<url>http://www.github.com/yeori</url>
 	</organization>
+	<inceptionYear>2016</inceptionYear>
 	<build>
 		<plugins>
 			<plugin>
