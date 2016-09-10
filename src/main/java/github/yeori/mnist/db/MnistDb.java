@@ -185,7 +185,7 @@ public class MnistDb {
         return buf;
     }
     /**
-     * 
+     * load N images' bytes into the buffer
      * @param index start index to read
      * @param nImages number of images to read from index
      * @param buf bytes of images are witten here

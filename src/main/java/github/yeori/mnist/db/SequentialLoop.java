@@ -26,6 +26,8 @@ package github.yeori.mnist.db;
 
 import java.util.Iterator;
 
+import github.yeori.mnist.MnistException;
+
 class SequentialLoop implements MnistLoop {
 
     
@@ -33,8 +35,9 @@ class SequentialLoop implements MnistLoop {
     private int pos;
 
     private Mnistlet mlet = new Mnistlet();
+    private int startIndex ;
     private int limitIndex;
-    
+    private int size ;
     public SequentialLoop(MnistDb db) {
         this(db, 0, db.size());
     }
@@ -46,8 +49,10 @@ class SequentialLoop implements MnistLoop {
      */
     public SequentialLoop(MnistDb db, int start, int end) {
         this.db = db;
+        this.startIndex = start;
         this.pos = start;
         this.limitIndex = end;
+        this.size = end - start ;
     }
 
     @Override
@@ -57,6 +62,7 @@ class SequentialLoop implements MnistLoop {
 
     @Override
     public Mnistlet next() {
+    	checkRange();
         mlet.set (pos, db.getNumberAt(pos), db.getRawBytesAt(pos));
         pos ++;
         return mlet;
@@ -65,5 +71,33 @@ class SequentialLoop implements MnistLoop {
     public Iterator<Mnistlet> iterator() {
         return this;
     }
+    
+    @Override
+    public Mnistlet get(int index) {
+    	checkRange(index);
+    	int ridx = startIndex + index;
+    	mlet.set(ridx, db.getNumberAt(ridx), db.getRawBytesAt(ridx));
+    	return mlet;
+    }
+    
+	@Override
+    public int size() {
+    	return size;
+    }
 
+    private void checkRange ( ) {
+    	if ( !hasNext() ){
+    		throw new MnistException("out of range [%d, %d) but %d", startIndex, limitIndex, pos);
+    	}
+    }
+    
+    private void checkRange(int index) {
+    	if ( index < 0 ) {
+    		throw new MnistException("negative index : %d", index);
+    	}
+    	
+    	if ( index + startIndex >= limitIndex ) {
+    		throw new MnistException("index overflow : %d", index);
+    	}
+    }
 }
