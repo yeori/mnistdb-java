@@ -1,5 +1,3 @@
-package github.yeori.mnist.db;
-
 /*-
  * #%L
  * JMnistDB
@@ -23,6 +21,7 @@ package github.yeori.mnist.db;
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
+package github.yeori.mnist.db;
 
 import java.io.IOException;
 
