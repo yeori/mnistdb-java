@@ -14,7 +14,7 @@ java implementation for mnist handwritten db
 * creates db instance like
 
 
-
+```
 	public static void main(String[] args) {
 		
 		String label_file_path = "path to label file";
@@ -37,6 +37,6 @@ java implementation for mnist handwritten db
 		System.out.println("number   : " + last.number());
 		System.out.println("raw bytes: " + Arrays.toString(last.rawbytes()));
 	}
-	
+```	
 	
 
