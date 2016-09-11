@@ -47,9 +47,11 @@ class IndexBasedLoop implements MnistLoop {
     @Override
     public Mnistlet next() {
     	checkRange();
+    	Mnistlet mlet = new Mnistlet();
         int index = indexes.get(pos);
         pos ++ ;
-        return db.get(index);
+        db.get(index, mlet);
+        return mlet;
     }
 
     @Override
@@ -60,7 +62,9 @@ class IndexBasedLoop implements MnistLoop {
     @Override
     public Mnistlet get(int index) {
     	checkRange( index );
-    	return db.get( indexes.get(index) );
+    	Mnistlet mlet = new Mnistlet();
+    	db.get( indexes.get(index), mlet );
+    	return mlet;
     }
 
 	@Override

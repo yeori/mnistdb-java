@@ -62,7 +62,8 @@ class SequentialLoop implements MnistLoop {
     @Override
     public Mnistlet next() {
     	checkRange();
-        mlet.set (pos, db.getNumberAt(pos), db.getRawBytesAt(pos));
+    	Mnistlet mlet = new Mnistlet();
+    	db.get(pos, mlet);
         pos ++;
         return mlet;
     }
@@ -74,8 +75,9 @@ class SequentialLoop implements MnistLoop {
     @Override
     public Mnistlet get(int index) {
     	checkRange(index);
+    	Mnistlet mlet = new Mnistlet();
     	int ridx = startIndex + index;
-    	mlet.set(ridx, db.getNumberAt(ridx), db.getRawBytesAt(ridx));
+    	mlet.set(ridx, db.getNumberAt(ridx), db.readBytes(ridx, mlet.rawbytes()));
     	return mlet;
     }
     

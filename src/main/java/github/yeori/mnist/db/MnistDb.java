@@ -259,22 +259,7 @@ public class MnistDb {
      * @return iterator for the given number char
      */
     public MnistLoop queryByNum ( char num ) {
-        if ( "0123456789".indexOf(num) < 0 ) {
-            throw new MnistDBexception("not a number character: %s", num);
-        }
-        List<Integer> indexes = new ArrayList<>();
-        try {
-            this.label.seek(offset_label);
-            for ( int i = 0 ; i < dataSize ; i ++ ) {
-                char n = (char) ('0' + label.readUnsignedByte() );
-                if ( n == num ) {
-                    indexes.add(i);
-                }
-            }
-            return new IndexBasedLoop(this, indexes);
-        } catch (IOException e) {
-            throw new MnistDBexception(e, "io error!: %s", e.getMessage());
-        }
+        return new IndexBasedLoop(this, index(num) );
     }
     /**
      * create interator by index range
@@ -287,5 +272,42 @@ public class MnistDb {
         
         return new SequentialLoop(this, startIndex, endIndex);
         
+    }
+    /**
+     * create iterator by the given number's index range.
+     * 
+     * @param num
+     * @param startIndex
+     * @param endIndex
+     * @return
+     */
+    public MnistLoop query ( char num, int startIndex, int endIndex) {
+    	List<Integer> indexes = index(num);
+    	if ( startIndex >= indexes.size() ) {
+    		throw new MnistDBexception("[INDEX OVERFLOW] startIndex out of range: %d", startIndex);
+    	}
+    	if ( endIndex >= indexes.size()) {
+    		throw new MnistDBexception("[INDEX OVERFLOW] endIndex out of range: %d", endIndex);
+    	}
+    	return new IndexBasedLoop(this, indexes.subList(startIndex, endIndex));
+    }
+    
+    private List<Integer> index( char num ) {
+    	if ( "0123456789".indexOf(num) < 0 ) {
+            throw new MnistDBexception("not a number character: %s", num);
+        }
+        List<Integer> indexes = new ArrayList<>();
+        try {
+            this.label.seek(offset_label);
+            for ( int i = 0 ; i < dataSize ; i ++ ) {
+                char n = (char) ('0' + label.readUnsignedByte() );
+                if ( n == num ) {
+                    indexes.add(i);
+                }
+            }
+            return indexes;
+        } catch (IOException e) {
+            throw new MnistDBexception(e, "io error!: %s", e.getMessage());
+        }
     }
 }
