@@ -37,31 +37,15 @@ import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
+
 import github.yeori.mnist.MnistConfig;
 import github.yeori.mnist.MnistException;
+import github.yeori.mnist.db.Mnistlet;
 import github.yeori.mnist.io.ImgWriter.ImgType;
 import github.yeori.mnist.util.Util;
 
 public class MnistIO {
-    static String path_training_label = "e:/mnist/train-labels.idx1-ubyte";
-    static String path_training_immages = "e:/mnist/train-images.idx3-ubyte";
-    public static void main(String[] args) throws IOException {
-        /*
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        
-        MnistReader reader = new MnistFileReader();
-        reader.read(path_training_label, bos);
-        
-        int [] labels = readLabel (new ByteArrayInputStream( bos.toByteArray()));
-        
-        MnistWriter writer = new ImgWriter(new File ("training"));
-        
-        writeImages(new File(path_training_immages), labels, writer, "tr-");
-        */
-//        MnistConfig config = new MnistConfig("mnist.config");
-//        write( config );
-//        write ( "mnist.config" );
-    }
     
     public static void write ( String configPath) throws MnistException {
         MnistConfig config = new MnistConfig(configPath);
@@ -222,4 +206,22 @@ public class MnistIO {
     	}
     	return img;
     }
+    /**
+     * exports an image of the given mnist element out to the directory
+     * @param data 
+     * @param outDir PNG image is created here
+     * @return
+     */
+    public static boolean exportImage ( Mnistlet data , File outDir ) {
+    	Util.should_exist("no such directory", outDir);
+    	Util.should_be_true("not a directory: " + outDir.getAbsolutePath(), outDir.isDirectory()); 
+    	File imageFile = new File(outDir, String.format("n-%05d-%s.png", data.index(), data.number()));
+		try {
+			ImageIO.write( data.asImage(), "PNG", imageFile );
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+    }		
 }
