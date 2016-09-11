@@ -6,6 +6,7 @@ java implementation for mnist handwritten db
 ## prerequisite
 
 * jdk(or jre) 1.8+
+* mnist database file
 
 ## how to use
 
@@ -14,7 +15,8 @@ java implementation for mnist handwritten db
 * creates db instance like
 
 
-```
+```java
+
     public static void main(String[] args) {
         
         String label_file_path = "path to label file";
@@ -37,6 +39,7 @@ java implementation for mnist handwritten db
         System.out.println("number   : " + last.number());
         System.out.println("raw bytes: " + Arrays.toString(last.rawbytes()));
     }
+
 ```    
     
 ### query by range
@@ -83,3 +86,22 @@ java implementation for mnist handwritten db
     
 ```
 
+## query by number
+
+```java
+
+    public static void main(String[] args) {
+        
+        String label_file_path = "....";
+        String image_file_path = "....";
+        MnistDb db = MnistUtil.loadDb(label_file_path, image_file_path);
+        
+        MnistLoop loop = db.queryByNum('9');
+        
+        System.out.println(String.format("db has %d of '9'", loop.size()));
+        for( Mnistlet nine : loop ) {
+            System.out.println("found at " + nine.index());
+        }
+    }
+
+```

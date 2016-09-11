@@ -112,7 +112,7 @@ public class Util {
         }
     }
     /**
-     * return new files whichi is uncompressed from the given input
+     * return new files which is uncompressed from the given input
      * @param gzipped gzip file( extension should be ".gz"
      * @return uncompressed file
      */
